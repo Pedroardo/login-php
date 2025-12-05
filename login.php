@@ -1,5 +1,11 @@
 <?php 
 include("service/db.php");
+session_start();
+$login_message = "";
+
+if(isset($_SESSION["is_login"])){
+    header("location: dashboard.php");
+}
 
 if(isset($_POST['login'])){
     $username = $_POST['username'];
@@ -10,8 +16,12 @@ if(isset($_POST['login'])){
 
     if($result->num_rows > 0){
         $data = $result->fetch_assoc();
+        $_SESSION["username"] = $data["username"];
+        $_SESSION["is_login"] = true;
+
+        header("location: dashboard.php");
     }else {
-        echo "Login Gagal";
+        $login_message =  "Login Gagal";
     }
  }
 
@@ -32,5 +42,6 @@ if(isset($_POST['login'])){
         <input type="password" placeholder="password" name="password">
         <button type="submit" name="login">Login</button>
     </form>
+    <p><?= $login_message ?></p>
 </body>
 </html>
