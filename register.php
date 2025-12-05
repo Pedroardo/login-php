@@ -11,14 +11,19 @@ if(isset($_SESSION["is_login"])){
 if(isset($_POST['register'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $hash_password = hash("sha256", $password);
 
-    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
-
+    try {
+    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash_password')";
     IF($db->query($sql)){
         $register_message = "Registrasi Berhasil, Silakhkan Login";
     }else {
         $register_message ="Registrasi Gagal";
     }
+    } catch (mysqli_sql_exception $e) {
+        $register_message = $e->getMessage();
+    }
+    $db->close();
 }
 
 ?>
