@@ -1,6 +1,9 @@
 <?php 
 session_start();
-
+if(isset($_POST['logout'])){
+    session_destroy();
+    header("location: index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,5 +17,8 @@ session_start();
     <?php include "layout/header.html" ?>
 
     <h1>SELAMAT DATANG, <?= $_SESSION["username"] ?></h1>
+    <form action="dashboard.php" method="post">
+        <button type="submit" name="logout">Logout</button>
+    </form>
 </body>
 </html>
