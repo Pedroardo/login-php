@@ -1,5 +1,18 @@
 <?php 
+include("service/db.php");
 
+if(isset($_POST['register'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+
+    IF($db->query($sql)){
+        echo "Registrasi Berhasil";
+    }else {
+        echo "Registrasi Gagal";
+    }
+}
 
 ?>
 
